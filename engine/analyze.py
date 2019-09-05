@@ -1,6 +1,7 @@
 from datetime import datetime
 from datetime import timezone
 from urllib.request import urlopen
+import numpy as np
 import sys
 import json
 import sniffer
