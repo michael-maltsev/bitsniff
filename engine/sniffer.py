@@ -29,7 +29,7 @@ def bellShape(data):
                 if b == 3:
                     result[i + b] = data[i]
                 else:
-                    result[i + b] = None
+                    result[i + b] = -1
 
     return result[:len(data)]
 
