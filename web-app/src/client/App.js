@@ -37,7 +37,11 @@ export default class App extends Component {
         },
         body: JSON.stringify({ log })
       }).then(res => res.json())
-        .then(analyzerData => this.setState({ analyzerDataLoading: false, analyzerData }));
+        .then(analyzerData => this.setState({ analyzerDataLoading: false, analyzerData }))
+        .catch(error => {
+          console.log(error);
+          this.setState({ analyzerDataLoading: false, analyzerData: null });
+        });
     };
 
     const file = acceptedFiles[0];
