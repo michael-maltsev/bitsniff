@@ -61,4 +61,3 @@ def detect(traffic, blocks):
     fake_std = np.std(fake_results)
 
     return (real_result - fake_mean) / fake_std
-    # return real_result
