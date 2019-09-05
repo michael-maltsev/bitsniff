@@ -31,7 +31,11 @@ footer {
 
 .logoImage {
   width: 250px;
-  height: 250px;
+  transition: all .5s linear;
+}
+
+.logoImageSmall {
+  width: 50px;
 }
 
 .dropzoneBaseStyle {

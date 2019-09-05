@@ -2,9 +2,13 @@ import React, { Component } from 'react';
 import './app.css';
 import logoImage from './assets/logo.png';
 import Dropzone from 'react-dropzone';
+import AnalysisChart from './components/AnalysisChart'
 
 export default class App extends Component {
-  state = { username: null };
+  state = {
+    username: null,
+    analyzerData: {}//null
+  };
 
   constructor(props) {
     super(props);
@@ -37,7 +41,7 @@ export default class App extends Component {
         },
         body: JSON.stringify({ log })
       }).then(res => res.json())
-        .then(result => console.log(JSON.stringify(result)));
+        .then(analyzerData => this.setState({ analyzerData }));
     };
 
     const file = acceptedFiles[0];
@@ -45,35 +49,40 @@ export default class App extends Component {
   }
 
   render() {
+    const { analyzerData } = this.state;
     return (
       <>
         <header>
-          <img src={logoImage} className='logoImage' alt='logo' />
+          <img src={logoImage} className={'logoImage' + (analyzerData ? ' logoImageSmall' : '')} alt='logo' />
           <div>BitSniff</div>
         </header>
         <section className='mainSection'>
-          <Dropzone onDrop={this.onDrop}>
-            {({ getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject }) => {
-              let divClassName = 'dropzoneBaseStyle';
-              if (isDragActive) {
-                divClassName += ' dropzoneActiveStyle';
-              }
-              if (isDragAccept) {
-                divClassName += ' dropzoneAcceptStyle';
-              }
-              if (isDragReject) {
-                divClassName += ' dropzoneRejectStyle';
-              }
-              return (
-                <section>
-                  <div {...getRootProps({ className: divClassName })}>
-                    <input {...getInputProps()} />
-                    <p>Drop the network log file to be analyzed</p>
-                  </div>
-                </section>
-              );
-            }}
-          </Dropzone>
+          {analyzerData ?
+            <AnalysisChart data={analyzerData} />
+            :
+            <Dropzone onDrop={this.onDrop}>
+              {({ getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject }) => {
+                let divClassName = 'dropzoneBaseStyle';
+                if (isDragActive) {
+                  divClassName += ' dropzoneActiveStyle';
+                }
+                if (isDragAccept) {
+                  divClassName += ' dropzoneAcceptStyle';
+                }
+                if (isDragReject) {
+                  divClassName += ' dropzoneRejectStyle';
+                }
+                return (
+                  <section>
+                    <div {...getRootProps({ className: divClassName })}>
+                      <input {...getInputProps()} />
+                      <p>Drop the network log file to be analyzed</p>
+                    </div>
+                  </section>
+                );
+              }}
+            </Dropzone>
+          }
         </section>
         <footer>
           &copy; The BitSniff team
