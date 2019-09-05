@@ -7,8 +7,8 @@ k_bell_shape = [0.1, 0.3, 0.8, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.8, 0.8, 0.8, 0.8, 0.
 
 # Return the similarity score for two time-series
 def similarity(a, b):
-    return np.corrcoef(a, b)[0][1]
-    #return np.trapz(a * b)
+    # return np.corrcoef(a, b)[0][1]
+    return np.trapz(a * b)
 
 # Generate fake block time-series of given length
 def generateFake(real):
@@ -19,6 +19,19 @@ def generateFake(real):
         if np.random.random() < freq:
             fake[i] = size
     return fake
+
+# Hack for prettier plot
+def bellShape(data):
+    result = np.zeros(len(data) + len(k_bell_shape))
+    for i in range(len(data)):
+        if data[i] > 0:
+            for b in range(len(k_bell_shape)):
+                if b == 3:
+                    result[i + b] = data[i]
+                else:
+                    result[i + b] = None
+
+    return result[:len(data)]
 
 # Create bell shapes around blocks
 def shapePredict(data):
