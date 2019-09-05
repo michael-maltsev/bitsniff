@@ -11,7 +11,7 @@ The attack is fully passive, may be applied to historical data, and should work 
 ## Usage
 First, install the programs required to run the application:
 
-* [Python 3](https://www.python.org/downloads/)
+* [Python 3](https://www.python.org/downloads/) with [numpy](https://pypi.org/project/numpy/)
 * [Node.js](https://nodejs.org/en/download/)
 
 Next, clone this repository:
