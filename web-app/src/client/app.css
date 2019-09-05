@@ -44,6 +44,14 @@ footer {
   width: 50px;
 }
 
+.verdictText {
+  font-size: 20px;
+}
+
+.verdictTextNumber {
+  font-size: 26px;
+}
+
 .dropzoneBaseStyle {
   flex: 1;
   display: flex;

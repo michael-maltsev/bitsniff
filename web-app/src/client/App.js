@@ -70,7 +70,13 @@ export default class App extends Component {
             />
             :
             analyzerData ?
-              <AnalysisChart data={analyzerData} />
+              <>
+                <div className='verdictText'>
+                  {'The file represents Bitcoin activity with '}
+                  <span className='verdictTextNumber'>{Number(analyzerData.result.toFixed(1))}%</span> probability
+                </div>
+                <AnalysisChart data={analyzerData} />
+              </>
               :
               <Dropzone onDrop={this.onDrop}>
                 {({ getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject }) => {
