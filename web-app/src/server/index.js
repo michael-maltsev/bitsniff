@@ -13,7 +13,8 @@ app.get('/api/getUsername', (req, res) => res.send({ username: os.userInfo().use
 
 app.post('/api/analyzeNetworkLog', (req, res) => {
   const pythonScript = '../engine/analyze.py';
-  const child = execFile('python', [pythonScript], (err, stdout, stderr) => {
+  const cwd = '../engine';
+  const child = execFile('python', [pythonScript], { cwd }, (err, stdout, stderr) => {
     if (err) {
       // node couldn't execute the command
       res.status(500).send('Oh uh, something went wrong - could not run analyzer');

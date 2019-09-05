@@ -21,7 +21,7 @@ export default class AnalysisChart extends Component {
     for (let i = 0; i < data.traffic.length; i++) {
       chartData.push({
         traffic: data.traffic[i],
-        blocks: data.blocks[i]
+        blocks: data.blocks[i] >= 0 ? data.blocks[i] : null
       });
     }
 
@@ -42,7 +42,12 @@ export default class AnalysisChart extends Component {
         <YAxis />
         <Tooltip contentStyle={{ backgroundColor: '#3a4750' }} />
         <Legend />
-        <Brush dataKey="name" height={30} stroke="#4c5d69" />
+        <Brush dataKey="name" height={30} stroke="#4c5d69">
+          <ComposedChart data={chartData}>
+            <Area connectNulls name="Expected activity" type="monotone" dataKey="blocks" fill="#f6c90e" stroke="#f6c90e" />
+            <Bar name="Network activity" dataKey="traffic" barSize={20} fill="#3a4750" />
+          </ComposedChart>
+        </Brush>
         <Area connectNulls name="Expected activity" type="monotone" dataKey="blocks" fill="#f6c90e" stroke="#f6c90e" />
         <Bar name="Network activity" dataKey="traffic" barSize={20} fill="#eeeeee" />
       </ComposedChart>
