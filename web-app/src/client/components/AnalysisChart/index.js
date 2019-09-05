@@ -21,7 +21,7 @@ export default class AnalysisChart extends Component {
     for (let i = 0; i < data.traffic.length; i++) {
       chartData.push({
         traffic: data.traffic[i],
-        blocks: data.blocks[i]
+        blocks: data.blocks[i] >= 0 ? data.blocks[i] : null
       });
     }
 
