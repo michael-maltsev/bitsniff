@@ -1,18 +1,19 @@
 const express = require('express');
-const os = require('os');
-const { exec } = require('child_process');
 var bodyParser = require('body-parser');
+const os = require('os');
+const { execFile } = require('child_process');
+const stream = require('stream');
 
 const app = express();
 
 app.use(express.static('dist'));
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: '50mb' }));
+
 app.get('/api/getUsername', (req, res) => res.send({ username: os.userInfo().username }));
 
 app.post('/api/analyzeNetworkLog', (req, res) => {
-  console.log(JSON.stringify(req.body.log));
-
-  exec('cmd /c echo {"a":1}', (err, stdout, stderr) => {
+  const pythonScript = '../engine/analyze.py';
+  const child = execFile('python', [pythonScript], (err, stdout, stderr) => {
     if (err) {
       // node couldn't execute the command
       res.status(500).send('Oh uh, something went wrong - could not run analyzer');
@@ -29,6 +30,11 @@ app.post('/api/analyzeNetworkLog', (req, res) => {
       res.status(500).send('Oh uh, something went wrong - invalid result');
     }
   });
+
+  const stdinStream = new stream.Readable();
+  stdinStream.push(req.body.log);  // Add data to the internal queue for users of the stream to consume
+  stdinStream.push(null);          // Signals the end of the stream (EOF)
+  stdinStream.pipe(child.stdin);
 });
 
 app.listen(process.env.PORT || 8080, () => console.log(`Listening on port ${process.env.PORT || 8080}!`));
