@@ -7,7 +7,7 @@ const stream = require('stream');
 const app = express();
 
 app.use(express.static('dist'));
-app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.json({ limit: '1000mb' }));
 
 app.get('/api/getUsername', (req, res) => res.send({ username: os.userInfo().username }));
 

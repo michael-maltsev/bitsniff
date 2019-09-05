@@ -21,6 +21,8 @@ body {
 }
 
 header {
+  margin-right: auto;
+  margin-left: auto;
   font-family: 'Jockey One', sans-serif;
   font-size: 60px;
 }
@@ -29,9 +31,17 @@ footer {
   font-size: .75em;
 }
 
+.clickableHeader {
+  cursor: pointer;
+}
+
 .logoImage {
   width: 250px;
-  height: 250px;
+  transition: all .5s linear;
+}
+
+.logoImageSmall {
+  width: 50px;
 }
 
 .dropzoneBaseStyle {
