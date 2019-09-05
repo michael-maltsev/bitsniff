@@ -43,7 +43,7 @@ export default class AnalysisChart extends Component {
         <Tooltip contentStyle={{ backgroundColor: '#3a4750' }} />
         <Legend />
         <Brush dataKey="name" height={30} stroke="#4c5d69" />
-        <Area name="Expected activity" type="monotone" dataKey="blocks" fill="#f6c90e" stroke="#f6c90e" />
+        <Area connectNulls name="Expected activity" type="monotone" dataKey="blocks" fill="#f6c90e" stroke="#f6c90e" />
         <Bar name="Network activity" dataKey="traffic" barSize={20} fill="#eeeeee" />
       </ComposedChart>
     );
