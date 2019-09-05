@@ -91,7 +91,7 @@ def bellShape(data):
 
 traffic, start = parseLog()
 blocks_data = getBlocks(start, len(traffic))
-blocks = bellShape(blocks_data)
+blocks = list(bellShape(blocks_data))
 result = sniffer.detect(traffic, blocks)
 
 response = json.dumps({'traffic': traffic, 'blocks': blocks, 'result': result})
