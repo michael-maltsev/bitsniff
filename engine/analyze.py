@@ -76,9 +76,23 @@ def getBlocks(start, length):
 
     return b_arr
 
+# Hack for prettier plot
+def bellShape(data):
+    result = np.zeros(len(data) + len(k_bell_shape))
+    for i in range(len(data)):
+        if data[i] > 0:
+            for b in range(len(k_bell_shape)):
+                if b == 3:
+                    result[i + b] = data[i]
+                else:
+                    result[i + b] = None
+
+    return result[:len(data)]
+
 traffic, start = parseLog()
-blocks = list(sniffer.shapePredict(getBlocks(start, len(traffic))))
-result = 2.1
+blocks_data = getBlocks(start, len(traffic))
+blocks = bellShape(blocks_data)
+result = sniffer.detect(traffic, blocks)
 
 response = json.dumps({'traffic': traffic, 'blocks': blocks, 'result': result})
 

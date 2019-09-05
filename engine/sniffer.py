@@ -7,8 +7,8 @@ k_bell_shape = [0.1, 0.3, 0.8, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.8, 0.8, 0.8, 0.8, 0.
 
 # Return the similarity score for two time-series
 def similarity(a, b):
-    # return np.corrcoef(a, b)
-    return np.trapz(a * b)
+    return np.corrcoef(a, b)[0][1]
+    #return np.trapz(a * b)
 
 # Generate fake block time-series of given length
 def generateFake(real):
@@ -32,7 +32,7 @@ def shapePredict(data):
 
 # Calculate the probability of detection (in units of std)
 def detect(traffic, blocks):
-    if len(traffic) != len(block):
+    if len(traffic) != len(blocks):
         print('Error: traffic/blocks length mismatch')
         return
     length = len(traffic)
@@ -48,3 +48,4 @@ def detect(traffic, blocks):
     fake_std = np.std(fake_results)
 
     return (real_result - fake_mean) / fake_std
+    # return real_result
