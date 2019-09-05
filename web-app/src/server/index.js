@@ -12,11 +12,11 @@ app.use(bodyParser.json({ limit: '1000mb' }));
 app.get('/api/getUsername', (req, res) => res.send({ username: os.userInfo().username }));
 
 app.post('/api/analyzeNetworkLog', (req, res) => {
-  const pythonScript = '../engine/analyze.py';
-  const cwd = '../engine';
-  const child = execFile('python', [pythonScript], { cwd }, (err, stdout, stderr) => {
+  const child = execFile('python', ['analyze.py'], { cwd: '../engine' }, (err, stdout, stderr) => {
     if (err) {
       // node couldn't execute the command
+      console.log(err);
+      console.log('execFile error');
       res.status(500).send('Oh uh, something went wrong - could not run analyzer');
       return;
     }
@@ -28,6 +28,9 @@ app.post('/api/analyzeNetworkLog', (req, res) => {
     try {
       res.send(JSON.parse(stdout));
     } catch (e) {
+      console.log('JSON parse error');
+      console.log(e);
+      console.log('Data', stdout);
       res.status(500).send('Oh uh, something went wrong - invalid result');
     }
   });
