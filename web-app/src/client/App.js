@@ -28,8 +28,16 @@ export default class App extends Component {
     reader.onerror = () => console.log('file reading has failed');
     reader.onload = () => {
       // Do whatever you want with the file contents
-      const str = reader.result;
-      console.log(str);
+      const log = reader.result;
+      fetch('/api/analyzeNetworkLog', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ log })
+      }).then(res => res.json())
+        .then(result => console.log(JSON.stringify(result)));
     };
 
     const file = acceptedFiles[0];
