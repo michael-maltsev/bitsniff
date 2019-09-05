@@ -21,12 +21,18 @@ body {
 }
 
 header {
+  margin-right: auto;
+  margin-left: auto;
   font-family: 'Jockey One', sans-serif;
   font-size: 60px;
 }
 
 footer {
   font-size: .75em;
+}
+
+.clickableHeader {
+  cursor: pointer;
 }
 
 .logoImage {

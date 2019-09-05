@@ -16,11 +16,12 @@ export default class AnalysisChart extends Component {
   }
 
   render() {
-    let data = [];
-    for (let i = 0; i < mockData.traffic.length; i++) {
-      data.push({
-        traffic: mockData.traffic[i],
-        blocks: mockData.blocks[i]
+    const { data } = this.props;
+    let chartData = [];
+    for (let i = 0; i < data.traffic.length; i++) {
+      chartData.push({
+        traffic: data.traffic[i],
+        blocks: data.blocks[i]
       });
     }
 
@@ -28,7 +29,7 @@ export default class AnalysisChart extends Component {
       <ComposedChart
         width={1200}
         height={500}
-        data={data}
+        data={chartData}
         margin={{
           top: 5,
           //right: 30,
