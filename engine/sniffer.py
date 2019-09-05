@@ -61,6 +61,13 @@ def detect(traffic, blocks):
     fake_std = np.std(fake_results)
 
     res = (real_result - fake_mean) / fake_std
-    if not np.isfinite(res):
-        res = 0
+
+    # No traffic at all
+    if np.std(traffic) == 0:
+        return -3
+
+    # No blocks mined
+    if np.std(blocks) == 0:
+        return 0
+        
     return res
