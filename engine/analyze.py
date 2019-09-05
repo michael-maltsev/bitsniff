@@ -3,6 +3,7 @@ from datetime import timezone
 from urllib.request import urlopen
 import sys
 import json
+import sniffer
 
 # Parse log into python array and start timestamp
 def parseLog():
@@ -76,7 +77,7 @@ def getBlocks(start, length):
     return b_arr
 
 traffic, start = parseLog()
-blocks = getBlocks(start, len(traffic))
+blocks = list(sniffer.shapePredict(getBlocks(start, len(traffic))))
 result = 2.1
 
 response = json.dumps({'traffic': traffic, 'blocks': blocks, 'result': result})

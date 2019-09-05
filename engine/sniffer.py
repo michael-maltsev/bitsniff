@@ -3,6 +3,7 @@ import math
 import os
 
 k_fakes_num = 1000
+k_bell_shape = [0.1, 0.3, 0.8, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.8, 0.8, 0.8, 0.8, 0.8, 0.7, 0.7, 0.7, 0.7, 0.7, 0.5, 0.5, 0.5, 0.5, 0.5, 0.3, 0.3, 0.3, 0.3]
 
 # Return the similarity score for two time-series
 def similarity(a, b):
@@ -21,7 +22,13 @@ def generateFake(real):
 
 # Create bell shapes around blocks
 def shapePredict(data):
-    return data
+    result = np.zeros(len(data) + len(k_bell_shape))
+    for i in range(len(data)):
+        if data[i] > 0:
+            for b in range(len(k_bell_shape)):
+                result[i + b] = data[i] * k_bell_shape[b]
+
+    return result[:len(data)]
 
 # Calculate the probability of detection (in units of std)
 def detect(traffic, blocks):
