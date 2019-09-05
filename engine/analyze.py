@@ -2,7 +2,7 @@ from datetime import datetime
 import sys
 import json
 
-# Parse log into python structure
+# Parse log into python array and start timestamp
 def parseLog():
     lines = sys.stdin.readlines()
     ts_dict = {}
@@ -22,8 +22,14 @@ def parseLog():
     ts_arr = [ts_dict[k] for k in sorted(ts_dict.keys())]
     return (ts_arr, sorted(ts_dict.keys())[0])
 
-traffic, start = parseLog()
+# Get the blockchain data given start time and timeframe
+def getBlocks(start, length):
+    return [0 for i in range(length)]
 
-response = json.dumps({'traffic': traffic, 'blocks': traffic, 'result': 2.1})
+traffic, start = parseLog()
+blocks = getBlocks(start, len(traffic))
+result = 2.1
+
+response = json.dumps({'traffic': traffic, 'blocks': blocks, 'result': result})
 
 print(response)
