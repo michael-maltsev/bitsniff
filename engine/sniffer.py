@@ -1,4 +1,3 @@
-import scipy.stats as st
 import numpy as np
 import math
 import os
@@ -64,4 +63,4 @@ def detect(traffic, blocks):
     res = (real_result - fake_mean) / fake_std
     if not np.isfinite(res):
         res = 0
-    return st.norm.cdf(res)
+    return res
