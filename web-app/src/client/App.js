@@ -31,13 +31,14 @@ export default class App extends Component {
     reader.onload = () => {
       // Do whatever you want with the file contents
       const log = reader.result;
+      const coin = 'bitcoin';
       fetch('/api/analyzeNetworkLog', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ log })
+        body: JSON.stringify({ log, coin })
       }).then(res => res.json())
         .then(analyzerData => this.setState({ analyzerDataLoading: false, analyzerData }))
         .catch(error => {
