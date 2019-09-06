@@ -24,6 +24,14 @@ export default class App extends Component {
       return;
     }
 
+    const file = acceptedFiles[0];
+
+    let logDay = 6; // default to 09-06-xxx.log, the day of the legendary hackathon \m/
+    const match = file.name.match(/^(\d+)-(\d+)-/);
+    if (match && parseInt(match[1], 10) === 9) {
+      logDay = parseInt(match[2], 10);
+    }
+
     const reader = new FileReader();
 
     reader.onabort = () => console.log('file reading was aborted');
@@ -38,7 +46,7 @@ export default class App extends Component {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ log, coin })
+        body: JSON.stringify({ log, coin, logDay })
       }).then(res => res.json())
         .then(analyzerData => this.setState({ analyzerDataLoading: false, analyzerData }))
         .catch(error => {
@@ -47,7 +55,6 @@ export default class App extends Component {
         });
     };
 
-    const file = acceptedFiles[0];
     reader.readAsText(file);
     this.setState({ analyzerDataLoading: true });
   }
