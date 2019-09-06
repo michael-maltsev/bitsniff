@@ -17,7 +17,10 @@ def parseLog():
     for line in lines:
         arr = line.split()
         time = [int(t) for t in arr[0].split('.')[0].split(':')]
-        size = int(arr[-1])
+        try:
+            size = int(arr[-1])
+        except:
+            size = 0
 
         if len(sys.argv) > 2:
             day = int(sys.argv[2])
