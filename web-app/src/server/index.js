@@ -12,7 +12,7 @@ app.use(bodyParser.json({ limit: '1000mb' }));
 app.get('/api/getUsername', (req, res) => res.send({ username: os.userInfo().username }));
 
 app.post('/api/analyzeNetworkLog', (req, res) => {
-  const child = execFile('python', ['analyze.py'], { cwd: '../engine' }, (err, stdout, stderr) => {
+  const child = execFile('python', ['analyze.py', req.body.coin], { cwd: '../engine' }, (err, stdout, stderr) => {
     if (err) {
       // node couldn't execute the command
       console.log(err);
