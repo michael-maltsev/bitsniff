@@ -19,10 +19,9 @@ def parseLog():
         time = [int(t) for t in arr[0].split('.')[0].split(':')]
         size = int(arr[-1])
 
-        if len(sys.argv) > 1 and sys.argv[1] == 'xmr':
-            day = 6
-        else:
-            day = 5
+        if len(sys.argv) > 2:
+            day = int(sys.argv[2])
+
         dt = datetime(2019, 9, day, time[0], time[1], time[2])
         key = int(datetime.timestamp(dt))
         if key in ts_dict:
@@ -73,7 +72,7 @@ def getBlocksDictMonero():
 # Get the blockchain data (BTC)
 def getBlocksDict():
     request = 'https://api.blockchair.com/bitcoin/'
-    request += 'blocks?q=time(2019-09-04..2019-09-05)&limit=100&offset='
+    request += 'blocks?q=time(2019-09-04..2019-09-06)&limit=100&offset='
 
     limit = 100
     offset = 0
