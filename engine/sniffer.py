@@ -70,4 +70,7 @@ def detect(traffic, blocks):
     if np.std(blocks) == 0:
         return 0
 
+    if np.isnan(res):
+        return 0
+
     return res
