@@ -56,7 +56,7 @@ export default class App extends Component {
   }
 
   calcResultPercentage(result) {
-    const percentage = Number((ztable(result) * 100).toFixed(1));
+    const percentage = Number((ztable(result * 0.5) * 100).toFixed(1));
     const prefix = percentage === 100 ? 'nearly ' : '';
     return `${prefix}${percentage}%`;
   }
