@@ -1,6 +1,7 @@
 from datetime import datetime
 from datetime import timezone
 from urllib.request import urlopen
+import urllib
 import numpy as np
 import os
 import sys
@@ -18,7 +19,11 @@ def parseLog():
         time = [int(t) for t in arr[0].split('.')[0].split(':')]
         size = int(arr[-1])
 
-        dt = datetime(2019, 9, 5, time[0], time[1], time[2])
+        if len(sys.argv) > 1 and sys.argv[1] == 'xmr':
+            day = 6
+        else:
+            day = 5
+        dt = datetime(2019, 9, day, time[0], time[1], time[2])
         key = int(datetime.timestamp(dt))
         if key in ts_dict:
             ts_dict[key] += size
@@ -37,7 +42,35 @@ def parseLog():
 
     return (ts_arr, start)
 
-# Get the blockchain data
+# Get the blockchain data (XMR)
+def getBlocksDictMonero():
+    url = 'https://api.nanopool.org/v1/xmr/blocks/0/200/'
+    user_agent = 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.0.7) Gecko/2009021910 Firefox/3.0.7'
+
+    headers = {'User-Agent':user_agent,}
+
+    request = urllib.request.Request(url, None, headers)
+    response = urllib.request.urlopen(request)
+    content = response.read()
+
+    data = json.loads(content)
+
+    blocks_tuples = [(block['date'], 1) for block in data['data']]
+
+    blocks_tuples.sort(key=lambda block: block[0])
+
+    b_dict = {}
+    for block in blocks_tuples:
+        key = int(block[0])
+        if key in b_dict:
+            b_dict[key] += block[1]
+        else:
+            b_dict[key] = block[1]
+
+    return b_dict
+
+
+# Get the blockchain data (BTC)
 def getBlocksDict():
     request = 'https://api.blockchair.com/bitcoin/'
     request += 'blocks?q=time(2019-09-04..2019-09-05)&limit=100&offset='
@@ -85,12 +118,20 @@ def getBlocksArray(start, length, b_dict):
 
 traffic, start = parseLog()
 
-if os.path.isfile('./blocks_dict.pickle'):
-    with open('./blocks_dict.pickle', 'rb') as pkl_file:
+if len(sys.argv) > 1 and sys.argv[1] == 'xmr':
+    pkl_path = './blocks_dict_xmr.pickle'
+else:
+    pkl_path = './blocks_dict.pickle'
+
+if os.path.isfile(pkl_path):
+    with open(pkl_path, 'rb') as pkl_file:
         blocks_dict = pickle.load(pkl_file)
 else:
-    blocks_dict = getBlocksDict()
-    with open('./blocks_dict.pickle', 'wb') as pkl_file:
+    if len(sys.argv) > 1 and sys.argv[1] == 'xmr':
+        blocks_dict = getBlocksDictMonero()
+    else:
+        blocks_dict = getBlocksDict()
+    with open(pkl_path, 'wb') as pkl_file:
         pickle.dump(blocks_dict, pkl_file)
 
 blocks_data = getBlocksArray(start, len(traffic), blocks_dict)

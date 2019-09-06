@@ -69,5 +69,5 @@ def detect(traffic, blocks):
     # No blocks mined
     if np.std(blocks) == 0:
         return 0
-        
+
     return res
