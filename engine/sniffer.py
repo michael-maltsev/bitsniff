@@ -8,7 +8,6 @@ k_bell_shape = [0.1, 0.3, 0.8, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.8, 0.8, 0.8, 0.8, 0.
 # Return the similarity score for two time-series
 def similarity(a, b):
     return np.corrcoef(a, b)[0][1]
-    # return np.trapz(a * b)
 
 # Generate fake block time-series of given length
 def generateFake(real):
