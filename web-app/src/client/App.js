@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import './app.css';
-import logoImage from './assets/logo.png';
 import Dropzone from 'react-dropzone';
 import BarLoader from 'react-spinners/BarLoader';
 import ztable from 'ztable';
+import logoImage from './assets/logo.png';
 import AnalysisChart from './components/AnalysisChart'
 
 export default class App extends Component {

@@ -1,8 +1,24 @@
+/*
+Palette: https://colorhunt.co/palette/18378
+#303841
+#3A4750
+#F6C90E
+#EEEEEE
+*/
+
 body {
   margin: 0;
   background-color: #303841;
   color: #eeeeee;
   font-family: 'Roboto Condensed', sans-serif;
+}
+
+a {
+  color: #FFFFFF;
+}
+
+a:hover, a:active {
+  color: #F6C90E;
 }
 
 #root {
@@ -79,4 +95,36 @@ footer {
 
 .dropzoneRejectStyle {
   border-color: #ff1744;
+}
+
+.examplesDescription {
+  margin-bottom: 1em;
+  width: 300px;
+  text-align: center;
+}
+
+.defaultButton {
+  display: inline-block;
+  padding: 0.35em 1.2em;
+  border: 0.1em solid #FFFFFF;
+  margin: 0 0.3em 0.3em 0;
+  border-radius: 0.12em;
+  box-sizing: border-box;
+  text-decoration: none;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+  color: #FFFFFF;
+  text-align: center;
+  transition: all 0.2s;
+  width: 300px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.defaultButton:hover {
+  color: #303841;
+  background-color: #F6C90E;
+  cursor: pointer;
 }
