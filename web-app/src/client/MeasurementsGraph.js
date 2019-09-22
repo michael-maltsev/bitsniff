@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './app.css';
-import logoImage from './assets/logo.png';
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend
 } from 'recharts';
@@ -40,36 +39,25 @@ export default class App extends Component {
 
   render() {
     return (
-      <>
-        <header>
-          <img src={logoImage} className='logoImage logoImageSmall' alt='logo' />
-          <div>BitSniff</div>
-        </header>
-        <section className='mainSection'>
-          <LineChart
-            width={1200 / 2}
-            height={500 / 2}
-            data={chartData}
-            margin={{
-              top: 5,
-              //right: 30,
-              //left: 20,
-              bottom: 5
-            }}
-          >
-            <CartesianGrid stroke="#666" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip contentStyle={{ backgroundColor: '#3a4750' }} />
-            <Legend />
-            <Line name="True positive" type="monotone" dataKey="tp" stroke="#f6c90e" />
-            <Line name="False positive" type="monotone" dataKey="fp" stroke="#eeeeee" />
-          </LineChart>
-        </section>
-        <footer>
-          &copy; The BitSniff team
-        </footer>
-      </>
+      <LineChart
+        width={1200 / 2}
+        height={500 / 2}
+        data={chartData}
+        margin={{
+          top: 5,
+          //right: 30,
+          //left: 20,
+          bottom: 5
+        }}
+      >
+        <CartesianGrid stroke="#666" />
+        <XAxis dataKey="name" />
+        <YAxis />
+        <Tooltip contentStyle={{ backgroundColor: '#3a4750' }} />
+        <Legend />
+        <Line name="True positive" type="monotone" dataKey="tp" stroke="#f6c90e" />
+        <Line name="False positive" type="monotone" dataKey="fp" stroke="#eeeeee" />
+      </LineChart>
     );
   }
 }

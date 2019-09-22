@@ -19,6 +19,7 @@
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
     "react-dropzone": "^10.1.8",
+    "react-router-dom": "^5.0.1",
     "react-spinners": "^0.6.1",
     "recharts": "^1.7.1",
     "ztable": "^1.0.7"

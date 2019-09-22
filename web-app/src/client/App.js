@@ -1,127 +1,54 @@
 import React, { Component } from 'react';
 import './app.css';
-import Dropzone from 'react-dropzone';
-import BarLoader from 'react-spinners/BarLoader';
-import ztable from 'ztable';
+import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import logoImage from './assets/logo.png';
-import AnalysisChart from './components/AnalysisChart'
+import Analyzer from './Analyzer';
+import Demonstration from './Demonstration';
+import MeasurementsGraph from './MeasurementsGraph';
+
+function Header({ match, history }) {
+  let toLink = null;
+  switch (match.path) {
+    case '/performance':
+    case '/result/:resultId':
+      toLink = '/';
+      break;
+
+    case '/example/:exampleId':
+      toLink = '/example';
+      break;
+  }
+
+  return (
+    <header className={toLink && 'clickableHeader'} onClick={toLink && (() => history.push(toLink))}>
+      <img src={logoImage} className={'logoImage' + (toLink ? ' logoImageSmall' : '')} alt='logo' />
+      <div>BitSniff</div>
+    </header>
+  );
+}
 
 export default class App extends Component {
-  state = {
-    analyzerDataLoading: false,
-    analyzerData: null
-  };
-
-  constructor(props) {
-    super(props);
-    this.onDrop = this.onDrop.bind(this);
-    this.onHeaderClick = this.onHeaderClick.bind(this);
-    this.calcResultPercentage = this.calcResultPercentage.bind(this);
-  }
-
-  onDrop(acceptedFiles) {
-    if (acceptedFiles.length === 0) {
-      return;
-    }
-
-    const file = acceptedFiles[0];
-
-    let logDay = 6; // default to 09-06-xxx.log, the day of the legendary hackathon \m/
-    const match = file.name.match(/^(\d+)-(\d+)-/);
-    if (match && parseInt(match[1], 10) === 9) {
-      logDay = parseInt(match[2], 10);
-    }
-
-    const reader = new FileReader();
-
-    reader.onabort = () => console.log('file reading was aborted');
-    reader.onerror = () => console.log('file reading has failed');
-    reader.onload = () => {
-      // Do whatever you want with the file contents
-      const log = reader.result;
-      const coin = 'bitcoin';
-      fetch('/api/analyzeNetworkLog', {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ log, coin, logDay })
-      }).then(res => res.json())
-        .then(analyzerData => this.setState({ analyzerDataLoading: false, analyzerData }))
-        .catch(error => {
-          console.log(error);
-          this.setState({ analyzerDataLoading: false, analyzerData: null });
-        });
-    };
-
-    reader.readAsText(file);
-    this.setState({ analyzerDataLoading: true });
-  }
-
-  onHeaderClick() {
-    this.setState({ analyzerData: null });
-  }
-
-  calcResultPercentage(result) {
-    const percentage = Number((ztable(result * 0.5) * 100).toFixed(1));
-    const prefix = percentage === 100 ? 'nearly ' : '';
-    return `${prefix}${percentage}%`;
-  }
-
   render() {
-    const { analyzerDataLoading, analyzerData } = this.state;
     return (
-      <>
-        <header className={analyzerData && 'clickableHeader'} onClick={analyzerData && this.onHeaderClick}>
-          <img src={logoImage} className={'logoImage' + (analyzerData ? ' logoImageSmall' : '')} alt='logo' />
-          <div>BitSniff</div>
-        </header>
+      <Router>
+        <Switch>
+          <Route path={['/performance', '/example/:exampleId', '/result/:resultId']} component={Header} />
+          <Route component={Header} />
+        </Switch>
         <section className='mainSection'>
-          {analyzerDataLoading ?
-            <BarLoader
-              widthUnit='px'
-              width={200}
-              color='white'
-            />
-            :
-            analyzerData ?
-              <>
-                <div className='verdictText'>
-                  {'The file represents Bitcoin activity with '}
-                  <span className='verdictTextNumber'>{this.calcResultPercentage(analyzerData.result)}</span> probability
-                </div>
-                <AnalysisChart data={analyzerData} />
-              </>
-              :
-              <Dropzone onDrop={this.onDrop}>
-                {({ getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject }) => {
-                  let divClassName = 'dropzoneBaseStyle';
-                  if (isDragActive) {
-                    divClassName += ' dropzoneActiveStyle';
-                  }
-                  if (isDragAccept) {
-                    divClassName += ' dropzoneAcceptStyle';
-                  }
-                  if (isDragReject) {
-                    divClassName += ' dropzoneRejectStyle';
-                  }
-                  return (
-                    <section>
-                      <div {...getRootProps({ className: divClassName })}>
-                        <input {...getInputProps()} />
-                        <p>Drop the network log file to be analyzed</p>
-                      </div>
-                    </section>
-                  );
-                }}
-              </Dropzone>
-          }
+          <Switch>
+            <Route path='/performance' component={MeasurementsGraph} />
+            <Route path='/example/:exampleId?' component={Demonstration} />
+            <Route path='/result/:resultId' component={Analyzer} />
+            <Route component={Analyzer} />
+          </Switch>
         </section>
         <footer>
-          &copy; The BitSniff team
+          <div>
+            &copy; <a href="https://github.com/m417z/bitsniff/graphs/contributors">The BitSniff team</a>
+          </div>
         </footer>
-      </>
+      </Router>
     );
   }
 }
