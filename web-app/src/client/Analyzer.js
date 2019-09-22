@@ -14,8 +14,6 @@ export default class App extends Component {
   constructor(props) {
     super(props);
     this.onDrop = this.onDrop.bind(this);
-    this.onHeaderClick = this.onHeaderClick.bind(this);
-    this.calcResultPercentage = this.calcResultPercentage.bind(this);
   }
 
   onDrop(acceptedFiles) {
@@ -61,16 +59,6 @@ export default class App extends Component {
     this.setState({ analyzerDataLoading: true });
   }
 
-  onHeaderClick() {
-    this.setState({ analyzerData: null });
-  }
-
-  calcResultPercentage(result) {
-    const percentage = Number((ztable(result * 0.5) * 100).toFixed(1));
-    const prefix = percentage === 100 ? 'nearly ' : '';
-    return `${prefix}${percentage}%`;
-  }
-
   render() {
     const { match } = this.props;
     const { analyzerDataLoading, analyzerData } = this.state;
@@ -90,7 +78,7 @@ export default class App extends Component {
             <>
               <div className='verdictText'>
                 {'The file represents Bitcoin activity with '}
-                <span className='verdictTextNumber'>{this.calcResultPercentage(analyzerData.result)}</span> probability
+                <span className='verdictTextNumber'>{calcResultPercentage(analyzerData.result)}</span> probability
               </div>
               <AnalysisChart data={analyzerData} />
             </>
@@ -121,4 +109,10 @@ export default class App extends Component {
       </>
     );
   }
+}
+
+function calcResultPercentage(result) {
+  const percentage = Number((ztable(result * 0.5) * 100).toFixed(1));
+  const prefix = percentage === 100 ? 'nearly ' : '';
+  return `${prefix}${percentage}%`;
 }
