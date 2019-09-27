@@ -14,7 +14,7 @@ def getTimeString():
 
 # Create log files used for detection
 # Bitcoin nodes run on 8333 by default
-# For Monero mining use pool port
+
 def startLog(port):
 	if not os.path.isdir('./data/'):
 		os.system('mkdir data')
