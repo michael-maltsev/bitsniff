@@ -6,7 +6,7 @@ const stream = require('stream');
 
 const app = express();
 const upload = multer({
-  limits: { fieldSize: 100 * 1024 * 1024 }
+  limits: { fieldSize: 1024 * 1024 * 1024 } // 1GB ought to be enough for anybody
 });
 
 app.use(express.static('dist'));
