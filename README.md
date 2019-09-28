@@ -16,7 +16,7 @@ First, install the programs required to run the application:
 
 Next, clone this repository:
 
-    git clone https://github.com/michael-maltsev/bitsniff.git
+    git clone https://github.com/m417z/bitsniff.git
 
 Now install dependencies for the web app and run it:
 
