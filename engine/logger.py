@@ -22,4 +22,4 @@ def startLog(port):
 
 	while True:
 		filename = getTimeString() + '.pcap'
-		os.system('tcpdump -q -c 10000 port ' + port + ' -w ./data/' + filename)
+		os.system('tcpdump -q -c 100000 port ' + port + ' -w ./data/' + filename)

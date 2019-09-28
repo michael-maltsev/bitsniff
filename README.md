@@ -11,7 +11,7 @@ The attack is fully passive, may be applied to historical data, and should work 
 ## Usage
 First, install the programs required to run the application:
 
-* [Python 3](https://www.python.org/downloads/) with [numpy](https://pypi.org/project/numpy/)
+* [Python 3](https://www.python.org/downloads/) with [numpy](https://pypi.org/project/numpy/) and [scapy](https://scapy.net/download/)
 * [Node.js](https://nodejs.org/en/download/)
 
 Next, clone this repository:
@@ -26,7 +26,11 @@ Now install dependencies for the web app and run it:
 
 The application should open automatically in the browser.
 
-Drag one of the logs from the `real_logs` or `fake_logs` folder to analyze it.
+## Traffic capturing
+Bitsniff uses .pcap file format. You can capture traffic on your machine using tcpdump (for Unix) or WinDump (for Windows). For example, to capture 100000 packets on port 8333 (default Bitcoin port):
+
+    tcpdump -q -c 100000 port 8333 -w ./bitsniff_test.pcap
+
 
 ## Team
 * Niko 'Tommy' Kudriastev
