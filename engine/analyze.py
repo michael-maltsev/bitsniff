@@ -10,7 +10,6 @@ import json
 import sniffer
 
 # Parse .pcap file into python array and start timestamp
-
 def parsePcap(packets):
     ts_dict = {}
 
