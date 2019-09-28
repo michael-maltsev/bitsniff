@@ -1,18 +1,20 @@
 const express = require('express');
-var bodyParser = require('body-parser');
+const multer = require('multer');
 const os = require('os');
 const { execFile } = require('child_process');
 const stream = require('stream');
 
 const app = express();
+const upload = multer({
+  limits: { fieldSize: 100 * 1024 * 1024 }
+});
 
 app.use(express.static('dist'));
-app.use(bodyParser.json({ limit: '1000mb' }));
 
 app.get('/api/getUsername', (req, res) => res.send({ username: os.userInfo().username }));
 
-app.post('/api/analyzeNetworkLog', (req, res) => {
-  const args = ['analyze.py', req.body.coin, req.body.logDay];
+app.post('/api/analyzeNetworkLog', upload.single('log'), (req, res) => {
+  const args = ['analyze.py'];
   const options = { cwd: '../engine' };
   const child = execFile('python', args, options, (err, stdout, stderr) => {
     if (err) {
@@ -38,8 +40,8 @@ app.post('/api/analyzeNetworkLog', (req, res) => {
   });
 
   const stdinStream = new stream.Readable();
-  stdinStream.push(req.body.log);  // Add data to the internal queue for users of the stream to consume
-  stdinStream.push(null);          // Signals the end of the stream (EOF)
+  stdinStream.push(req.file.buffer);  // Add data to the internal queue for users of the stream to consume
+  stdinStream.push(null);             // Signals the end of the stream (EOF)
   stdinStream.pipe(child.stdin);
 });
 

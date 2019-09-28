@@ -23,39 +23,22 @@ export default class App extends Component {
 
     const file = acceptedFiles[0];
 
-    let logDay = 6; // default to 09-06-xxx.log, the day of the legendary hackathon \m/
-    const match = file.name.match(/^(\d+)-(\d+)-/);
-    if (match && parseInt(match[1], 10) === 9) {
-      logDay = parseInt(match[2], 10);
-    }
+    const formData = new FormData();
+    formData.append('log', file, 'log');
 
-    const reader = new FileReader();
+    fetch('/api/analyzeNetworkLog', {
+      method: 'POST',
+      body: formData
+    }).then(res => res.json())
+      .then(analyzerData => {
+        this.setState({ analyzerDataLoading: false, analyzerData });
+        this.props.history.push('/result/' + encodeURIComponent(file.name));
+      })
+      .catch(error => {
+        console.log(error);
+        this.setState({ analyzerDataLoading: false, analyzerData: null });
+      });
 
-    reader.onabort = () => console.log('file reading was aborted');
-    reader.onerror = () => console.log('file reading has failed');
-    reader.onload = () => {
-      // Do whatever you want with the file contents
-      const log = reader.result;
-      const coin = 'bitcoin';
-      fetch('/api/analyzeNetworkLog', {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ log, coin, logDay })
-      }).then(res => res.json())
-        .then(analyzerData => {
-          this.setState({ analyzerDataLoading: false, analyzerData });
-          this.props.history.push('/result/' + encodeURIComponent(file.name));
-        })
-        .catch(error => {
-          console.log(error);
-          this.setState({ analyzerDataLoading: false, analyzerData: null });
-        });
-    };
-
-    reader.readAsText(file);
     this.setState({ analyzerDataLoading: true });
   }
 
