@@ -9,6 +9,33 @@ import pickle
 import json
 import sniffer
 
+# Parse .pcap file into python array and start timestamp
+
+def parsePcap(packets):
+    ts_dict = {}
+
+    for p in packets:
+        time = int(str(p.time).split('.')[0])
+        size = len(p)
+
+        if time in ts_dict:
+            ts_dict[time] += size
+        else:
+            ts_dict[time] = size
+
+    start = sorted(ts_dict.keys())[0]
+    end = sorted(ts_dict.keys())[-1]
+
+    ts_arr = []
+    for t in range(start, end + 1):
+        if t in ts_dict:
+            ts_arr += [ts_dict[t]]
+        else:
+            ts_arr += [0]
+
+    return (ts_arr, start)
+
+
 # Parse log into python array and start timestamp
 def parseLog():
     lines = sys.stdin.readlines()

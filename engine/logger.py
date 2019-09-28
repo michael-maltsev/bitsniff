@@ -4,7 +4,8 @@ import os
 def getTimeString():
 	time = datetime.now()
 
-	res = str(time.month).zfill(2) + '-'
+	res = str(time.year).zfill(2) + '-'
+	res += str(time.month).zfill(2) + '-'
 	res += str(time.day).zfill(2) + '-'
 	res += str(time.hour).zfill(2) + '-'
 	res += str(time.minute).zfill(2) + '-'
@@ -20,5 +21,5 @@ def startLog(port):
 		os.system('mkdir data')
 
 	while True:
-		filename = getTimeString() + '.log'
-		os.system('tcpdump -q -c 10000 port ' + port + ' > ./data/' + filename)
+		filename = getTimeString() + '.pcap'
+		os.system('tcpdump -q -c 10000 port ' + port + ' -w ./data/' + filename)
