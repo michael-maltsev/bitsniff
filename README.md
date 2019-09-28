@@ -27,10 +27,10 @@ Now install dependencies for the web app and run it:
 The application should open automatically in the browser.
 
 ## Traffic capturing
-__BitSniff__ uses .pcap file format. You can capture traffic on your machine using tcpdump (for Unix) or WinDump (for Windows). For example, to capture 100000 packets on port 8333 (default Bitcoin port) with tcpdump:
+__BitSniff__ uses the .pcap file format. You can capture traffic on your machine using tcpdump (for Unix) or WinDump (for Windows). For example, to capture 100000 packets on port 8333 (default Bitcoin port) with tcpdump:
 
     tcpdump -q -c 100000 port 8333 -w ./bitsniff_test.pcap
 
 ## Team
 * Niko 'Tommy' Kudriastev ([@79jke](https://twitter.com/79jke))
-* Michael 'Misha' Maltsev ([@m417z](https://twitter.com/m417z))
+* Michael Maltsev ([@m417z](https://twitter.com/m417z))
