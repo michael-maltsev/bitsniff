@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './app.css';
-import { HashRouter as Router, Route, Switch } from 'react-router-dom';
+import { HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import logoImage from './assets/logo.png';
 import Analyzer from './Analyzer';
 import Demonstration from './Demonstration';
@@ -39,8 +39,7 @@ export default class App extends Component {
           <Switch>
             <Route path='/performance' component={MeasurementsGraph} />
             <Route path='/example/:exampleId?' component={Demonstration} />
-            <Route path='/result/:resultId' component={Analyzer} />
-            <Route component={Analyzer} />
+            <Redirect to='/example' />
           </Switch>
         </section>
         <footer>
